@@ -3,13 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class PrizeBondDraw extends Model
 {
     protected $fillable = [
-        'prize_bond_series_id',
         'draw_title',
         'draw_date',
         'first_prize_amount',
@@ -18,6 +16,7 @@ class PrizeBondDraw extends Model
         'fourth_prize_amount',
         'fifth_prize_amount',
         'is_valid',
+        'result_pdf_path',
     ];
 
     protected function casts(): array
@@ -31,11 +30,6 @@ class PrizeBondDraw extends Model
             'fifth_prize_amount' => 'decimal:2',
             'is_valid' => 'boolean',
         ];
-    }
-
-    public function series(): BelongsTo
-    {
-        return $this->belongsTo(PrizeBondSeries::class, 'prize_bond_series_id');
     }
 
     public function winners(): HasMany

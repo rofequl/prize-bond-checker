@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PrizeBond;
 use App\Models\PrizeBondDraw;
 use App\Models\User;
+use App\Models\UserResultVerification;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -15,12 +17,34 @@ class AuthController extends Controller
     public function home(): View
     {
         $latestResults = PrizeBondDraw::query()
-            ->with('series')
             ->latest('draw_date')
             ->limit(8)
             ->get();
 
-        return view('home', compact('latestResults'));
+        $latestDraw = $latestResults->first();
+
+        $stats = [
+            'total_bonds' => PrizeBond::query()->count(),
+            'total_matches' => UserResultVerification::query()->count(),
+        ];
+
+        return view('home', compact('latestResults', 'latestDraw', 'stats'));
+    }
+
+    public function publicResults(Request $request): View
+    {
+        $draws = PrizeBondDraw::query()
+            ->with('winners')
+            ->latest('draw_date')
+            ->paginate(6)
+            ->withQueryString();
+
+        return view('public.results', compact('draws'));
+    }
+
+    public function help(): View
+    {
+        return view('public.help');
     }
 
     public function showLogin(): View
@@ -67,8 +91,10 @@ class AuthController extends Controller
             'email' => $validated['email'],
             'phone' => $validated['phone'] ?? null,
             'password' => $validated['password'],
-            'role' => 'user',
         ]);
+
+        // Role is set outside mass assignment to prevent privilege escalation.
+        $user->forceFill(['role' => 'user'])->save();
 
         Auth::login($user);
         $request->session()->regenerate();

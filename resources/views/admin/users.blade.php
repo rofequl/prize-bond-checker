@@ -1,38 +1,55 @@
 @extends('layouts.admin')
 
 @section('title', 'Admin Users | Price Bond Bangladesh')
+@section('page_title', 'Users')
 
 @section('content')
-    <section class="portal-shell py-10 sm:py-14">
-        <div class="glass-card p-6">
-            <h1 class="text-2xl font-bold text-white">Citizen Users</h1>
-            <p class="mt-2 text-sm text-slate-300">প্রতিটি user-এর block count এবং total prize bond count দেখানো হচ্ছে।</p>
+    <section class="px-4 sm:px-6 lg:px-8 py-8">
+        <div class="mb-8">
+            <span class="section-label">Citizen Users</span>
+            <h1 class="mt-2 text-3xl font-black tracking-tight text-slate-900">All registered citizens</h1>
+            <p class="mt-1 text-sm text-slate-500">Each row shows how many blocks and prize bonds a citizen has saved.</p>
+        </div>
 
-            <div class="mt-5 overflow-x-auto">
-                <table class="min-w-full text-left text-sm">
-                    <thead class="text-slate-300">
+        <div class="card p-6">
+            <div class="overflow-x-auto">
+                <table class="table-modern">
+                    <thead>
                         <tr>
-                            <th class="py-2 pr-4">Name</th>
-                            <th class="py-2 pr-4">Email</th>
-                            <th class="py-2 pr-4">Phone</th>
-                            <th class="py-2 pr-4">Joined</th>
-                            <th class="py-2 pr-4">Total Block</th>
-                            <th class="py-2 pr-4">Total Prize Bond</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Phone</th>
+                            <th>Joined</th>
+                            <th>Blocks</th>
+                            <th>Prize Bonds</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($users as $user)
-                            <tr class="border-t border-white/10 text-slate-200">
-                                <td class="py-2 pr-4 font-semibold">{{ $user->name }}</td>
-                                <td class="py-2 pr-4">{{ $user->email }}</td>
-                                <td class="py-2 pr-4">{{ $user->phone ?: '-' }}</td>
-                                <td class="py-2 pr-4">{{ $user->created_at->format('d M Y') }}</td>
-                                <td class="py-2 pr-4">{{ $user->prize_bond_blocks_count }}</td>
-                                <td class="py-2 pr-4">{{ $user->prize_bonds_count }}</td>
+                            <tr>
+                                <td>
+                                    <div class="flex items-center gap-3">
+                                        <span class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 text-xs font-bold text-white">
+                                            {{ mb_strtoupper(mb_substr($user->name, 0, 1)) }}
+                                        </span>
+                                        <span class="font-semibold text-slate-900">{{ $user->name }}</span>
+                                    </div>
+                                </td>
+                                <td class="text-slate-600">{{ $user->email }}</td>
+                                <td class="text-slate-600">{{ $user->phone ?: '—' }}</td>
+                                <td class="text-slate-500">{{ $user->created_at->format('d M Y') }}</td>
+                                <td>
+                                    <span class="badge-indigo">{{ $user->prize_bond_blocks_count }}</span>
+                                </td>
+                                <td>
+                                    <span class="badge-success">{{ $user->prize_bonds_count }}</span>
+                                </td>
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="6" class="py-3 text-slate-400">No users found.</td>
+                                <td colspan="6" class="py-10">
+                                    <div class="empty-state">No users found.</div>
+                                </td>
                             </tr>
                         @endforelse
                     </tbody>

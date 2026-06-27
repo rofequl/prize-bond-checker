@@ -1,58 +1,263 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+<div align="center">
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# 🇧🇩 Price Bond Bangladesh
 
-## About Laravel
+### A free, open-source citizen portal for tracking Bangladesh Bank prize bonds and instantly verifying draw results.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+[![License: MIT](https://img.shields.io/badge/License-MIT-indigo.svg)](LICENSE)
+[![Laravel](https://img.shields.io/badge/Laravel-12-red.svg)](https://laravel.com)
+[![Livewire](https://img.shields.io/badge/Livewire-3-violet.svg)](https://livewire.laravel.com)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06b6d4.svg)](https://tailwindcss.com)
+[![PHP](https://img.shields.io/badge/PHP-8.2%2B-blueviolet.svg)](https://www.php.net)
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+[**🚀 Live Demo**](https://nayem.com.bd) · [**📖 Documentation**](#-getting-started) · [**🐛 Report a Bug**](https://github.com/rofequl/price-bond-checker/issues) · [**💬 Request a Feature**](https://github.com/rofequl/price-bond-checker/issues)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+</div>
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+## 📌 About
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Price Bond Bangladesh** is a modern, fully Bangla-localized web application that helps Bangladeshi citizens organize their prize bond numbers and automatically check them against official Bangladesh Bank draw results. No more manually scanning long PDFs — save your bonds once and verify in one click every quarter.
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+> ⚠️ **Disclaimer:** This is an unofficial, community-built tool. It is **not affiliated with Bangladesh Bank or the Government of Bangladesh**. Always verify final winning numbers against the official government PDF released by Bangladesh Bank.
 
-## Agentic Development
+---
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+## ✨ Features
+
+### 👤 For Citizens
+- 🔐 **Free account** with email or mobile login
+- 📁 **Block-based organization** — group bonds (up to 100 per block) for easy management
+- 🎯 **One-click auto-verification** against the latest 8 valid draws
+- 🏆 **Winner notifications** with prize category, amount and draw details
+- 🔎 **Search & filter** your bond numbers
+- ✏️ **Edit & delete** bonds anytime
+- 📱 **Fully responsive** — works on mobile, tablet, desktop
+
+### 🌐 Public (No Login Required)
+- 📊 **Public results page** with formatted winning numbers from every draw
+- 📄 **Official PDF download** for each draw (uploaded by admin)
+- 📖 **Help / how-it-works** page with step-by-step Bangla guide
+- ❓ **FAQ section** answering common questions
+
+### 🛡️ For Admin
+- 📊 **Modern admin dashboard** with stat overview
+- 📄 **Draw result entry** with all 5 prize categories + amounts + official PDF upload
+- 🔢 **Smart validation** — enforces exact prize-number counts (1/1/2/2/40)
+- 📅 **3-month draw gap** enforced automatically
+- 🪟 **Automatic 8-draw valid window** — older draws auto-expire from matching pool
+- 📋 **Series management** — activate/deactivate available bond series
+- 👥 **User list** with block & bond counts
+
+### 🎨 Design
+- 💜 **Modern Indigo / Violet design system** with emerald accents
+- 🌗 **Light theme** with subtle gradients and smooth transitions
+- 🇧🇩 **Noto Sans Bengali** + Inter font stack for crisp Bangla & English typography
+- ⚡ **Tailwind CSS v4** with custom design tokens
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|---|---|
+| **Backend** | PHP 8.2+, Laravel 12 |
+| **Frontend** | Livewire 3, Alpine.js, Tailwind CSS v4 |
+| **Database** | MySQL 8 / MariaDB 10.4+ |
+| **Build** | Vite 8 |
+| **Auth** | Laravel session-based auth with role middleware |
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- **PHP** 8.2 or higher with `mbstring`, `pdo_mysql`, `gd`, `fileinfo` extensions
+- **Composer** 2.x
+- **Node.js** 18+ and npm
+- **MySQL** 8 / **MariaDB** 10.4+ (or any Laravel-supported database)
+
+### Installation
 
 ```bash
-composer require laravel/boost --dev
+# 1. Clone the repository
+git clone https://github.com/rofequl/price-bond-checker.git
+cd price-bond-checker
 
-php artisan boost:install
+# 2. Install PHP dependencies
+composer install
+
+# 3. Install JS dependencies
+npm install
+
+# 4. Copy the environment file
+cp .env.example .env
+
+# 5. Generate the application key
+php artisan key:generate
+
+# 6. Configure your database in .env
+#    DB_DATABASE=price_bond
+#    DB_USERNAME=root
+#    DB_PASSWORD=
+# Then run migrations
+php artisan migrate
+
+# 7. Create the public storage symlink (required for PDF uploads)
+php artisan storage:link
+
+# 8. Build front-end assets
+npm run build
+
+# 9. Serve the application
+php artisan serve
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+The site will be available at **http://localhost:8000**.
 
-## Contributing
+### Creating the first admin
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+By default no admin user exists. Create one through `tinker`:
 
-## Code of Conduct
+```bash
+php artisan tinker
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```php
+\App\Models\User::create([
+    'name' => 'Admin',
+    'email' => 'admin@example.com',
+    'password' => bcrypt('strong-password-here'),
+    'role' => 'admin',
+]);
+```
 
-## Security Vulnerabilities
+Then visit `/admin` to log in.
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Development mode
 
-## License
+```bash
+# Run Vite dev server with HMR
+npm run dev
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# In another terminal
+php artisan serve
+```
+
+---
+
+## 📁 Project Structure
+
+```
+price-bond-checker/
+├── app/
+│   ├── Http/Controllers/
+│   │   ├── AuthController.php          # Citizen auth + public pages
+│   │   └── AdminAuthController.php     # Admin panel
+│   ├── Livewire/Citizen/
+│   │   ├── Dashboard.php               # Citizen dashboard component
+│   │   └── ResultVerify.php            # Verification workflow
+│   └── Models/
+│       ├── PrizeBondDraw.php
+│       ├── PrizeBondDrawWinner.php
+│       ├── PrizeBondSeries.php
+│       ├── PrizeBond.php
+│       └── PrizeBondBlock.php
+├── database/migrations/                # Schema versions
+├── resources/
+│   ├── css/app.css                     # Design system + Tailwind theme
+│   └── views/
+│       ├── layouts/                    # Portal + admin layouts
+│       ├── auth/                       # Citizen login/register
+│       ├── admin/                      # Admin pages
+│       ├── public/                     # Public results + help
+│       └── livewire/citizen/           # Citizen Livewire views
+├── routes/web.php                      # All routes
+└── public/storage/results/             # Uploaded draw PDFs (symlinked)
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+php artisan test
+```
+
+---
+
+## 📦 Deployment
+
+### Production checklist
+
+1. Set `APP_ENV=production` and `APP_DEBUG=false` in `.env`
+2. Set `APP_URL` to your live domain
+3. Run: `php artisan config:cache && php artisan route:cache && php artisan view:cache`
+4. Run: `npm run build`
+5. Ensure `storage/` and `bootstrap/cache/` are writable by the web server
+6. Run `php artisan storage:link` once on the server
+7. Set up a queue worker if you intend to add background jobs later
+
+---
+
+## 🤝 Contributing
+
+Contributions, bug reports, and feature requests are welcome!
+
+1. **Fork** the repository
+2. **Create** your feature branch (`git checkout -b feature/AmazingFeature`)
+3. **Commit** your changes (`git commit -m 'Add some AmazingFeature'`)
+4. **Push** to the branch (`git push origin feature/AmazingFeature`)
+5. **Open** a Pull Request
+
+Please make sure your code follows Laravel conventions and that you preserve the original author attribution per the [LICENSE](LICENSE).
+
+---
+
+## 📜 License & Attribution
+
+This project is licensed under the **MIT License** with an attribution clause — see the [LICENSE](LICENSE) file for full terms.
+
+You are free to:
+
+- ✅ Use the software commercially or privately
+- ✅ Modify, fork and redistribute
+- ✅ Use as part of a larger project
+
+You must:
+
+- ⚠️ **Preserve original author credit** ("Md Nayem") in the README, an About page, or the application footer
+- ⚠️ **Not claim original authorship** of this software or substantial portions of it
+- ⚠️ **Link back** to https://github.com/rofequl/price-bond-checker or https://nayem.com.bd
+
+---
+
+## 👨‍💻 Author
+
+**Md Nayem**
+
+- 🌐 Website: [nayem.com.bd](https://nayem.com.bd)
+- 🐙 GitHub: [@rofequl](https://github.com/rofequl)
+- 📦 Repository: [price-bond-checker](https://github.com/rofequl/price-bond-checker)
+
+> If you use this software, please drop a ⭐ on the repository — it really helps!
+
+---
+
+## 🙏 Acknowledgments
+
+- [Laravel](https://laravel.com) — for the elegant PHP framework
+- [Livewire](https://livewire.laravel.com) — for reactive components without JS overhead
+- [Tailwind CSS](https://tailwindcss.com) — for the utility-first styling
+- [Heroicons](https://heroicons.com) — for the SVG icons
+- The Bangladeshi developer community 🇧🇩
+
+---
+
+<div align="center">
+
+**Made with ❤️ in Bangladesh by [Md Nayem](https://nayem.com.bd)**
+
+</div>

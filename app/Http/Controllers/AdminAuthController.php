@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\PrizeBondDraw;
 use App\Models\PrizeBondSeries;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 use Illuminate\View\View;
 
@@ -55,7 +57,6 @@ class AdminAuthController extends Controller
         ];
 
         $recentDraws = PrizeBondDraw::query()
-            ->with('series')
             ->latest('draw_date')
             ->limit(8)
             ->get();
@@ -84,7 +85,7 @@ class AdminAuthController extends Controller
     public function results(): View
     {
         $draws = PrizeBondDraw::query()
-            ->with(['series', 'winners'])
+            ->with('winners')
             ->latest('draw_date')
             ->paginate(10);
 
@@ -129,31 +130,8 @@ class AdminAuthController extends Controller
             'third_numbers' => ['required', 'string'],
             'fourth_numbers' => ['required', 'string'],
             'fifth_numbers' => ['required', 'string'],
+            'result_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
         ]);
-
-        $defaultSeriesId = PrizeBondSeries::query()
-            ->where('is_active', true)
-            ->orderBy('name')
-            ->value('id')
-            ?? PrizeBondSeries::query()->orderBy('name')->value('id');
-
-        if (! $defaultSeriesId) {
-            return back()
-                ->withInput()
-                ->withErrors(['draw_title' => 'Please create at least one series before saving results.']);
-        }
-
-        $latestDraw = PrizeBondDraw::query()->latest('draw_date')->first();
-        if ($latestDraw) {
-            $minNextDate = $latestDraw->draw_date->copy()->addMonths(3);
-            if (Carbon::parse($validated['draw_date'])->lt($minNextDate)) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'draw_date' => 'Next draw should be at least 3 months after '.$latestDraw->draw_date->format('d M Y').'.',
-                    ]);
-            }
-        }
 
         $first = $this->parsePrizeNumbers($validated['first_numbers']);
         $second = $this->parsePrizeNumbers($validated['second_numbers']);
@@ -187,9 +165,15 @@ class AdminAuthController extends Controller
             return back()->withInput()->withErrors($errors);
         }
 
-        DB::transaction(function () use ($validated, $first, $second, $third, $fourth, $fifth, $defaultSeriesId) {
+        $pdfPath = null;
+        if ($request->hasFile('result_pdf')) {
+            $file = $request->file('result_pdf');
+            $filename = Str::slug($validated['draw_title']).'-'.now()->format('YmdHis').'.'.$file->getClientOriginalExtension();
+            $pdfPath = $file->storeAs('results', $filename, 'public');
+        }
+
+        DB::transaction(function () use ($validated, $first, $second, $third, $fourth, $fifth, $pdfPath) {
             $draw = PrizeBondDraw::create([
-                'prize_bond_series_id' => $defaultSeriesId,
                 'draw_title' => $validated['draw_title'],
                 'draw_date' => $validated['draw_date'],
                 'first_prize_amount' => $validated['first_prize_amount'],
@@ -198,6 +182,7 @@ class AdminAuthController extends Controller
                 'fourth_prize_amount' => $validated['fourth_prize_amount'],
                 'fifth_prize_amount' => $validated['fifth_prize_amount'],
                 'is_valid' => true,
+                'result_pdf_path' => $pdfPath,
             ]);
 
             foreach ($first as $number) {
@@ -220,6 +205,194 @@ class AdminAuthController extends Controller
         });
 
         return redirect()->route('admin.results')->with('result_message', 'Draw result added successfully.');
+    }
+
+    public function editResult(PrizeBondDraw $draw): View
+    {
+        $draw->load('winners');
+
+        $grouped = $draw->winners->groupBy('prize_type');
+
+        $existing = [
+            'first_numbers' => $grouped->get('first', collect())->pluck('bond_number')->join(', '),
+            'second_numbers' => $grouped->get('second', collect())->pluck('bond_number')->join(', '),
+            'third_numbers' => $grouped->get('third', collect())->pluck('bond_number')->join(', '),
+            'fourth_numbers' => $grouped->get('fourth', collect())->pluck('bond_number')->join(', '),
+            'fifth_numbers' => $grouped->get('fifth', collect())->pluck('bond_number')->join(', '),
+        ];
+
+        return view('admin.results-edit', compact('draw', 'existing'));
+    }
+
+    public function updateResult(Request $request, PrizeBondDraw $draw): RedirectResponse
+    {
+        $validated = $request->validate([
+            'draw_title' => ['required', 'string', 'max:255'],
+            'draw_date' => ['required', 'date'],
+            'first_prize_amount' => ['required', 'numeric', 'min:0'],
+            'second_prize_amount' => ['required', 'numeric', 'min:0'],
+            'third_prize_amount' => ['required', 'numeric', 'min:0'],
+            'fourth_prize_amount' => ['required', 'numeric', 'min:0'],
+            'fifth_prize_amount' => ['required', 'numeric', 'min:0'],
+            'first_numbers' => ['required', 'string'],
+            'second_numbers' => ['required', 'string'],
+            'third_numbers' => ['required', 'string'],
+            'fourth_numbers' => ['required', 'string'],
+            'fifth_numbers' => ['required', 'string'],
+            'result_pdf' => ['nullable', 'file', 'mimes:pdf', 'max:10240'],
+            'remove_pdf' => ['nullable', 'boolean'],
+        ]);
+
+        $first = $this->parsePrizeNumbers($validated['first_numbers']);
+        $second = $this->parsePrizeNumbers($validated['second_numbers']);
+        $third = $this->parsePrizeNumbers($validated['third_numbers']);
+        $fourth = $this->parsePrizeNumbers($validated['fourth_numbers']);
+        $fifth = $this->parsePrizeNumbers($validated['fifth_numbers']);
+
+        $errors = [];
+        if ($first->count() !== 1) {
+            $errors['first_numbers'] = '1st prize must have exactly 1 number.';
+        }
+        if ($second->count() !== 1) {
+            $errors['second_numbers'] = '2nd prize must have exactly 1 number.';
+        }
+        if ($third->count() !== 2) {
+            $errors['third_numbers'] = '3rd prize must have exactly 2 numbers.';
+        }
+        if ($fourth->count() !== 2) {
+            $errors['fourth_numbers'] = '4th prize must have exactly 2 numbers.';
+        }
+        if ($fifth->count() !== 40) {
+            $errors['fifth_numbers'] = '5th prize must have exactly 40 numbers.';
+        }
+
+        $allNumbers = $first->concat($second)->concat($third)->concat($fourth)->concat($fifth);
+        if ($allNumbers->unique()->count() !== $allNumbers->count()) {
+            $errors['first_numbers'] = 'Winning numbers must be unique across all prize levels.';
+        }
+
+        if ($errors !== []) {
+            return back()->withInput()->withErrors($errors);
+        }
+
+        $newPdfPath = $draw->result_pdf_path;
+        $oldPdfPath = $draw->result_pdf_path;
+        $deleteOldPdf = false;
+
+        if ($request->boolean('remove_pdf') && $oldPdfPath) {
+            $newPdfPath = null;
+            $deleteOldPdf = true;
+        }
+
+        if ($request->hasFile('result_pdf')) {
+            $file = $request->file('result_pdf');
+            $filename = Str::slug($validated['draw_title']).'-'.now()->format('YmdHis').'.'.$file->getClientOriginalExtension();
+            $newPdfPath = $file->storeAs('results', $filename, 'public');
+            if ($oldPdfPath && $oldPdfPath !== $newPdfPath) {
+                $deleteOldPdf = true;
+            }
+        }
+
+        DB::transaction(function () use ($draw, $validated, $first, $second, $third, $fourth, $fifth, $newPdfPath) {
+            $draw->update([
+                'draw_title' => $validated['draw_title'],
+                'draw_date' => $validated['draw_date'],
+                'first_prize_amount' => $validated['first_prize_amount'],
+                'second_prize_amount' => $validated['second_prize_amount'],
+                'third_prize_amount' => $validated['third_prize_amount'],
+                'fourth_prize_amount' => $validated['fourth_prize_amount'],
+                'fifth_prize_amount' => $validated['fifth_prize_amount'],
+                'result_pdf_path' => $newPdfPath,
+            ]);
+
+            $draw->winners()->delete();
+
+            foreach ($first as $number) {
+                $draw->winners()->create(['prize_type' => 'first', 'bond_number' => $number]);
+            }
+            foreach ($second as $number) {
+                $draw->winners()->create(['prize_type' => 'second', 'bond_number' => $number]);
+            }
+            foreach ($third as $number) {
+                $draw->winners()->create(['prize_type' => 'third', 'bond_number' => $number]);
+            }
+            foreach ($fourth as $number) {
+                $draw->winners()->create(['prize_type' => 'fourth', 'bond_number' => $number]);
+            }
+            foreach ($fifth as $number) {
+                $draw->winners()->create(['prize_type' => 'fifth', 'bond_number' => $number]);
+            }
+
+            $this->syncValidDrawWindow();
+        });
+
+        if ($deleteOldPdf && $oldPdfPath) {
+            Storage::disk('public')->delete($oldPdfPath);
+        }
+
+        return redirect()->route('admin.results')->with('result_message', 'Draw result updated successfully.');
+    }
+
+    public function destroyResult(PrizeBondDraw $draw): RedirectResponse
+    {
+        $oldPdfPath = $draw->result_pdf_path;
+
+        DB::transaction(function () use ($draw) {
+            $draw->winners()->delete();
+            $draw->delete();
+            $this->syncValidDrawWindow();
+        });
+
+        if ($oldPdfPath) {
+            Storage::disk('public')->delete($oldPdfPath);
+        }
+
+        return redirect()->route('admin.results')->with('result_message', 'Draw deleted.');
+    }
+
+    public function system(): View
+    {
+        $storageLinked = is_link(public_path('storage')) || is_dir(public_path('storage'));
+
+        return view('admin.system', [
+            'storageLinked' => $storageLinked,
+        ]);
+    }
+
+    public function runStorageLink(): RedirectResponse
+    {
+        try {
+            Artisan::call('storage:link');
+            $output = trim(Artisan::output());
+
+            return redirect()->route('admin.system')->with('system_message', $output !== '' ? $output : 'Storage link created.');
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.system')->with('system_error', 'Failed: '.$e->getMessage());
+        }
+    }
+
+    public function runClearCache(): RedirectResponse
+    {
+        try {
+            Artisan::call('optimize:clear');
+            $output = trim(Artisan::output());
+
+            return redirect()->route('admin.system')->with('system_message', $output !== '' ? $output : 'All caches cleared.');
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.system')->with('system_error', 'Failed: '.$e->getMessage());
+        }
+    }
+
+    public function runMigrate(): RedirectResponse
+    {
+        try {
+            Artisan::call('migrate', ['--force' => true]);
+            $output = trim(Artisan::output());
+
+            return redirect()->route('admin.system')->with('system_message', $output !== '' ? $output : 'Migrations ran.');
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.system')->with('system_error', 'Failed: '.$e->getMessage());
+        }
     }
 
     public function logout(Request $request): RedirectResponse

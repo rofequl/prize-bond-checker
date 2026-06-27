@@ -148,8 +148,11 @@ class ResultVerify extends Component
             ->latest('id')
             ->get();
 
+        $hasBlocks = Auth::user()->prizeBondBlocks()->exists();
+
         return view('livewire.citizen.result-verify', [
             'savedResults' => $savedResults,
+            'hasBlocks' => $hasBlocks,
         ]);
     }
 

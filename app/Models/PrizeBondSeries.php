@@ -13,9 +13,4 @@ class PrizeBondSeries extends Model
     {
         return $this->hasMany(PrizeBond::class);
     }
-
-    public function draws(): HasMany
-    {
-        return $this->hasMany(PrizeBondDraw::class, 'prize_bond_series_id');
-    }
 }

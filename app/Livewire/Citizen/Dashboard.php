@@ -24,6 +24,15 @@ class Dashboard extends Component
     public string $bondNumber = '';
     public string $searchBondNumber = '';
     public string $filterBlockId = '';
+    public ?int $editingPrizeBondId = null;
+    public ?string $editingBlockId = null;
+    public ?string $editingSeriesId = null;
+    public string $editingBondNumber = '';
+
+    public function paginationView(): string
+    {
+        return 'livewire.pagination';
+    }
 
     public function mount(): void
     {
@@ -65,7 +74,6 @@ class Dashboard extends Component
 
         $this->blockName = '';
         $this->selectedBlockId = $block->id;
-        $this->resetPage('bondsPage');
 
         session()->flash('block_message', 'Block created.');
     }
@@ -112,18 +120,106 @@ class Dashboard extends Component
         ]);
 
         $this->bondNumber = '';
-        $this->resetPage('bondsPage');
+        $this->resetPage('block'.$block->id.'Page');
         session()->flash('bond_message', 'Prize bond added.');
+    }
+
+    public function editPrizeBond(int $prizeBondId): void
+    {
+        $bond = Auth::user()->prizeBonds()
+            ->where('id', $prizeBondId)
+            ->firstOrFail();
+
+        $this->resetErrorBag();
+        $this->editingPrizeBondId = $bond->id;
+        $this->editingBlockId = (string) $bond->prize_bond_block_id;
+        $this->editingSeriesId = (string) $bond->prize_bond_series_id;
+        $this->editingBondNumber = $bond->bond_number;
+    }
+
+    public function cancelEditPrizeBond(): void
+    {
+        $this->resetEditPrizeBondForm();
+    }
+
+    public function updatePrizeBond(): void
+    {
+        $user = Auth::user();
+
+        if ($this->editingPrizeBondId === null) {
+            return;
+        }
+
+        $bond = $user->prizeBonds()
+            ->where('id', $this->editingPrizeBondId)
+            ->firstOrFail();
+
+        $validated = $this->validate([
+            'editingBlockId' => ['required', Rule::exists('prize_bond_blocks', 'id')->where('user_id', $user->id)],
+            'editingSeriesId' => ['required', Rule::exists('prize_bond_series', 'id')],
+            'editingBondNumber' => ['required', 'string', 'max:50'],
+        ]);
+
+        $block = PrizeBondBlock::query()
+            ->where('id', $validated['editingBlockId'])
+            ->where('user_id', $user->id)
+            ->withCount('prizeBonds')
+            ->firstOrFail();
+
+        if ((int) $bond->prize_bond_block_id !== (int) $block->id && $block->prize_bonds_count >= 100) {
+            $this->addError('editingBlockId', 'This block already has 100 bonds.');
+
+            return;
+        }
+
+        $alreadyExists = PrizeBond::query()
+            ->where('prize_bond_block_id', $block->id)
+            ->where('prize_bond_series_id', $validated['editingSeriesId'])
+            ->where('bond_number', $validated['editingBondNumber'])
+            ->whereKeyNot($bond->id)
+            ->exists();
+
+        if ($alreadyExists) {
+            $this->addError('editingBondNumber', 'This bond already exists in the selected block.');
+
+            return;
+        }
+
+        $bond->update([
+            'prize_bond_block_id' => $block->id,
+            'prize_bond_series_id' => $validated['editingSeriesId'],
+            'bond_number' => $validated['editingBondNumber'],
+        ]);
+
+        $this->resetEditPrizeBondForm();
+        session()->flash('bond_message', 'Prize bond updated.');
+    }
+
+    private function resetEditPrizeBondForm(): void
+    {
+        $this->resetErrorBag();
+
+        $this->editingPrizeBondId = null;
+        $this->editingBlockId = null;
+        $this->editingSeriesId = null;
+        $this->editingBondNumber = '';
     }
 
     public function updatingSearchBondNumber(): void
     {
-        $this->resetPage('bondsPage');
+        $this->resetAllBlockPages();
     }
 
     public function updatingFilterBlockId(): void
     {
-        $this->resetPage('bondsPage');
+        $this->resetAllBlockPages();
+    }
+
+    private function resetAllBlockPages(): void
+    {
+        foreach (Auth::user()->prizeBondBlocks()->pluck('id') as $blockId) {
+            $this->resetPage('block'.$blockId.'Page');
+        }
     }
 
     public function render()
@@ -140,16 +236,20 @@ class Dashboard extends Component
             ->latest()
             ->get();
 
-        $bonds = $user->prizeBonds()
-            ->with(['series', 'block'])
-            ->when($this->searchBondNumber !== '', function ($query) {
-                $query->where('bond_number', 'like', '%'.trim($this->searchBondNumber).'%');
-            })
-            ->when($this->filterBlockId !== '', function ($query) {
-                $query->where('prize_bond_block_id', $this->filterBlockId);
-            })
-            ->latest()
-            ->paginate(25, ['*'], 'bondsPage');
+        $visibleBlocks = $this->filterBlockId === ''
+            ? $blocks
+            : $blocks->where('id', (int) $this->filterBlockId)->values();
+
+        $blockBondPages = [];
+        foreach ($visibleBlocks as $block) {
+            $blockBondPages[$block->id] = $block->prizeBonds()
+                ->with('series')
+                ->when($this->searchBondNumber !== '', function ($query) {
+                    $query->where('bond_number', 'like', '%'.trim($this->searchBondNumber).'%');
+                })
+                ->latest()
+                ->paginate(10, ['*'], 'block'.$block->id.'Page');
+        }
 
         $series = PrizeBondSeries::query()
             ->where('is_active', true)
@@ -160,7 +260,8 @@ class Dashboard extends Component
             'user' => $user,
             'stats' => $stats,
             'blocks' => $blocks,
-            'bonds' => $bonds,
+            'visibleBlocks' => $visibleBlocks,
+            'blockBondPages' => $blockBondPages,
             'series' => $series,
         ]);
     }
