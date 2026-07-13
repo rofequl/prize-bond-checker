@@ -37,7 +37,7 @@
                     <div class="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">নতুন ড্র আপলোড</div>
                     <div class="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">Winner list publish</div>
                     <div class="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">Citizen account review</div>
-                    <div class="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">Price bond data cleanup</div>
+                    <div class="rounded-2xl border border-white/10 bg-slate-950/40 px-4 py-3">Prize bond data cleanup</div>
                 </div>
 
                 <div class="mt-5 rounded-2xl border border-rose-300/20 bg-rose-500/10 p-4 text-sm leading-7 text-rose-50/90">

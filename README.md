@@ -99,7 +99,7 @@ cp .env.example .env
 php artisan key:generate
 
 # 6. Configure your database in .env
-#    DB_DATABASE=price_bond
+#    DB_DATABASE=prize_bond
 #    DB_USERNAME=root
 #    DB_PASSWORD=
 # Then run migrations
