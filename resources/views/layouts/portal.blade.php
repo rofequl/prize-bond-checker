@@ -3,12 +3,90 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#4f46e5">
+        <meta name="format-detection" content="telephone=no">
 
-        <title>@yield('title', config('app.name', 'Price Bond Bangladesh'))</title>
-        <link rel="icon" type="image/webp" href="{{ asset('images/logo-mark.webp') }}">
+        @php
+            $defaultTitle = 'Price Bond Bangladesh — বন্ড সংরক্ষণ ও ড্র ফলাফল যাচাই';
+            $defaultDescription = 'বাংলাদেশের নাগরিকদের জন্য নিরাপদ প্রাইজ বন্ড ট্র্যাকিং প্ল্যাটফর্ম। আপনার বন্ড নম্বর সংরক্ষণ করুন, সাম্প্রতিক ৮টি বৈধ ড্র-এর সাথে স্বয়ংক্রিয়ভাবে মিলিয়ে দেখুন এবং সরকারি ফলাফল PDF ডাউনলোড করুন।';
+            $pageTitle = trim($__env->yieldContent('title', $defaultTitle));
+            $metaDescription = trim($__env->yieldContent('meta_description', $defaultDescription));
+            $canonical = trim($__env->yieldContent('canonical', url()->current()));
+            $ogImage = trim($__env->yieldContent('og_image', asset('og-image.jpeg')));
+            $ogType = trim($__env->yieldContent('og_type', 'website'));
+            $robots = trim($__env->yieldContent('robots', 'index, follow, max-image-preview:large'));
+            $keywords = trim($__env->yieldContent('keywords', 'price bond bangladesh, প্রাইজ বন্ড, বাংলাদেশ ব্যাংক, ড্র ফলাফল, bond number checker, prize bond result'));
+        @endphp
+
+        <title>{{ $pageTitle }}</title>
+        <meta name="description" content="{{ $metaDescription }}">
+        <meta name="keywords" content="{{ $keywords }}">
+        <meta name="robots" content="{{ $robots }}">
+        <meta name="author" content="Md Nayem">
+        <meta name="msvalidate.01" content="D6F986A3A23E4E9A7BC45496222A2534">
+        <link rel="canonical" href="{{ $canonical }}">
+
+        {{-- Open Graph --}}
+        <meta property="og:site_name" content="{{ config('app.name', 'Price Bond Bangladesh') }}">
+        <meta property="og:type" content="{{ $ogType }}">
+        <meta property="og:title" content="{{ $pageTitle }}">
+        <meta property="og:description" content="{{ $metaDescription }}">
+        <meta property="og:url" content="{{ $canonical }}">
+        <meta property="og:image" content="{{ $ogImage }}">
+        <meta property="og:image:width" content="1200">
+        <meta property="og:image:height" content="630">
+        <meta property="og:image:alt" content="{{ config('app.name', 'Price Bond Bangladesh') }}">
+        <meta property="og:locale" content="bn_BD">
+
+        {{-- Twitter --}}
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="{{ $pageTitle }}">
+        <meta name="twitter:description" content="{{ $metaDescription }}">
+        <meta name="twitter:image" content="{{ $ogImage }}">
+
+        {{-- Icons --}}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('favicon/favicon.svg') }}">
+        <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('favicon/favicon-96x96.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicon/apple-touch-icon.png') }}">
+        <link rel="manifest" href="{{ asset('site.webmanifest') }}">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
+
+        {{-- Global structured data (Organization + WebSite) --}}
+        <script type="application/ld+json">
+            @php
+                $organizationLd = [
+                    '@context' => 'https://schema.org',
+                    '@graph' => [
+                        [
+                            '@type' => 'Organization',
+                            '@id' => url('/').'#organization',
+                            'name' => config('app.name', 'Price Bond Bangladesh'),
+                            'url' => url('/'),
+                            'logo' => asset('favicon/web-app-manifest-512x512.png'),
+                            'sameAs' => ['https://github.com/rofequl/price-bond-checker'],
+                        ],
+                        [
+                            '@type' => 'WebSite',
+                            '@id' => url('/').'#website',
+                            'name' => config('app.name', 'Price Bond Bangladesh'),
+                            'url' => url('/'),
+                            'inLanguage' => 'bn-BD',
+                            'publisher' => ['@id' => url('/').'#organization'],
+                            'potentialAction' => [
+                                '@type' => 'SearchAction',
+                                'target' => url('/results').'?q={search_term_string}',
+                                'query-input' => 'required name=search_term_string',
+                            ],
+                        ],
+                    ],
+                ];
+            @endphp
+            {!! json_encode($organizationLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+        </script>
+        @stack('json_ld')
     </head>
     <body class="min-h-screen antialiased surface-app">
         <div class="pointer-events-none fixed inset-0 soft-grid opacity-40"></div>
@@ -18,7 +96,7 @@
                 <div class="portal-shell">
                     <div class="flex h-16 items-center justify-between gap-4" x-data="{ open: false }">
                         <a href="{{ route('home') }}" class="flex items-center gap-3">
-                            <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond" class="h-14 w-auto object-contain">
+                            <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond Bangladesh — logo" class="h-14 w-auto object-contain">
                             <span class="hidden sm:block">
                                 <span class="block text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-600">Price Bond</span>
                                 <span class="block text-base font-bold text-slate-900 leading-tight">নাগরিক পোর্টাল</span>
@@ -89,7 +167,7 @@
                     <div class="grid gap-10 sm:grid-cols-[1.5fr_1fr_1fr]">
                         <div>
                             <div class="flex items-center gap-3">
-                                <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond" class="h-12 w-auto object-contain">
+                                <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond Bangladesh — logo" class="h-12 w-auto object-contain">
                                 <span class="text-lg font-bold text-slate-900">Price Bond বাংলাদেশ</span>
                             </div>
                             <p class="mt-4 max-w-sm text-sm leading-7 text-slate-600">

@@ -1,6 +1,46 @@
 @extends('layouts.portal')
 
-@section('title', 'কীভাবে ব্যবহার করবেন | Price Bond Bangladesh')
+@section('title', 'ব্যবহার সহায়িকা ও FAQ — Price Bond Bangladesh')
+@section('meta_description', 'Price Bond Bangladesh কীভাবে ব্যবহার করবেন — ৪টি সহজ ধাপে অ্যাকাউন্ট তৈরি, ব্লক ও বন্ড সংরক্ষণ এবং ড্র ফলাফল যাচাই। প্রায়শই জিজ্ঞাসিত প্রশ্নের উত্তর।')
+@section('canonical', route('help'))
+
+@push('json_ld')
+    <script type="application/ld+json">
+        @php
+            $faqs = [
+                ['q' => 'এই সাইট কি সরকারি?', 'a' => 'না, এটি একটি বেসরকারি নাগরিক সহায়ক টুল। আমরা বাংলাদেশ ব্যাংকের প্রকাশিত অফিসিয়াল ড্র ফলাফল ব্যবহার করি। চূড়ান্ত নিশ্চিতকরণের জন্য সর্বদা সরকারি PDF যাচাই করুন।'],
+                ['q' => 'আমার তথ্য কি নিরাপদ?', 'a' => 'হ্যাঁ। আপনার পাসওয়ার্ড এনক্রিপ্ট করে সংরক্ষণ করা হয় এবং আপনার বন্ড নম্বর শুধুমাত্র আপনিই দেখতে পারবেন।'],
+                ['q' => 'কতগুলো বন্ড সংরক্ষণ করতে পারব?', 'a' => 'প্রতিটি ব্লকে সর্বোচ্চ ১০০টি বন্ড। আপনি যত খুশি ব্লক তৈরি করতে পারবেন — কোনো সীমাবদ্ধতা নেই।'],
+                ['q' => 'কোন ড্র গুলোর সাথে মিলানো হয়?', 'a' => 'সর্বশেষ ৮টি বৈধ ড্র (গত ২ বছর) এর সাথে মিলিয়ে দেখানো হয়, যা সরকারি নিয়ম অনুসারে দাবি করার সময়সীমার মধ্যে পড়ে।'],
+                ['q' => 'বিজয়ী হলে কীভাবে পুরস্কার নেব?', 'a' => 'আমরা শুধু মিলিয়ে দেখার সুবিধা দিই। পুরস্কার সংগ্রহ করতে হবে বাংলাদেশ ব্যাংকের নির্দেশিকা অনুসারে। মূল bond এবং পরিচয়পত্র নিয়ে নির্ধারিত শাখায় যোগাযোগ করুন।'],
+                ['q' => 'খরচ কত?', 'a' => 'সম্পূর্ণ বিনামূল্যে। কোনো subscription, কোনো premium feature, কোনো hidden charge নেই।'],
+            ];
+            $faqLd = [
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
+                'mainEntity' => array_map(fn ($f) => [
+                    '@type' => 'Question',
+                    'name' => $f['q'],
+                    'acceptedAnswer' => ['@type' => 'Answer', 'text' => $f['a']],
+                ], $faqs),
+            ];
+        @endphp
+        {!! json_encode($faqLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    <script type="application/ld+json">
+        @php
+            $crumbs = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => url('/')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => 'সহায়িকা', 'item' => route('help')],
+                ],
+            ];
+        @endphp
+        {!! json_encode($crumbs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endpush
 
 @section('content')
     {{-- Hero --}}

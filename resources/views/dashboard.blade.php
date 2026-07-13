@@ -1,6 +1,7 @@
 @extends('layouts.portal')
 
-@section('title', 'Dashboard | Price Bond Bangladesh')
+@section('title', 'ড্যাশবোর্ড | Price Bond Bangladesh')
+@section('robots', 'noindex, nofollow')
 
 @section('content')
     <livewire:citizen.dashboard />

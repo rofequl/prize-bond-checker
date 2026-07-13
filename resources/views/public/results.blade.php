@@ -1,6 +1,44 @@
 @extends('layouts.portal')
 
-@section('title', 'ড্র ফলাফল | Price Bond Bangladesh')
+@section('title', 'সর্বশেষ ড্র ফলাফল — Price Bond Bangladesh')
+@section('meta_description', 'বাংলাদেশ ব্যাংক কর্তৃক ঘোষিত সাম্প্রতিক প্রাইজ বন্ড ড্র ফলাফল দেখুন। ১ম থেকে ৫ম পুরস্কার পর্যন্ত সব বিজয়ী নম্বর, প্রতিটি ড্র-এর তারিখ ও সরকারি PDF ডাউনলোড।')
+@section('canonical', route('results.public'))
+@section('og_type', 'article')
+
+@push('json_ld')
+    <script type="application/ld+json">
+        @php
+            $itemList = [
+                '@context' => 'https://schema.org',
+                '@type' => 'ItemList',
+                'name' => 'সাম্প্রতিক প্রাইজ বন্ড ড্র ফলাফল',
+                'itemListOrder' => 'https://schema.org/ItemListOrderDescending',
+                'numberOfItems' => $draws->count(),
+                'itemListElement' => $draws->getCollection()->values()->map(fn ($draw, $i) => [
+                    '@type' => 'ListItem',
+                    'position' => $i + 1,
+                    'name' => $draw->draw_title,
+                    'url' => route('results.public').'#draw-'.$draw->id,
+                    'datePublished' => $draw->draw_date->toDateString(),
+                ])->all(),
+            ];
+        @endphp
+        {!! json_encode($itemList, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+    <script type="application/ld+json">
+        @php
+            $crumbs = [
+                '@context' => 'https://schema.org',
+                '@type' => 'BreadcrumbList',
+                'itemListElement' => [
+                    ['@type' => 'ListItem', 'position' => 1, 'name' => 'হোম', 'item' => url('/')],
+                    ['@type' => 'ListItem', 'position' => 2, 'name' => 'ড্র ফলাফল', 'item' => route('results.public')],
+                ],
+            ];
+        @endphp
+        {!! json_encode($crumbs, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) !!}
+    </script>
+@endpush
 
 @php
     $prizeLabels = ['first' => '১ম পুরস্কার', 'second' => '২য় পুরস্কার', 'third' => '৩য় পুরস্কার', 'fourth' => '৪র্থ পুরস্কার', 'fifth' => '৫ম পুরস্কার'];
@@ -36,7 +74,7 @@
             <div class="space-y-6">
                 @foreach($draws as $draw)
                     @php $grouped = $draw->winners->groupBy('prize_type'); @endphp
-                    <div class="card-elevated overflow-hidden">
+                    <div id="draw-{{ $draw->id }}" class="card-elevated overflow-hidden">
                         {{-- Draw header --}}
                         <div class="border-b border-slate-200 bg-gradient-to-r from-slate-50 to-white px-6 py-5">
                             <div class="flex flex-wrap items-start justify-between gap-3">

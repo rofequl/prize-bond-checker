@@ -1,6 +1,8 @@
 @extends('layouts.portal')
 
 @section('title', 'লগইন | Price Bond Bangladesh')
+@section('meta_description', 'Price Bond Bangladesh অ্যাকাউন্টে লগইন করে আপনার সংরক্ষিত প্রাইজ বন্ড ও ড্র ফলাফল দেখুন।')
+@section('robots', 'noindex, follow')
 
 @section('content')
     <section class="portal-shell py-14 sm:py-20">
@@ -58,6 +60,10 @@
                     </div>
                 </div>
 
+                @if(session('status'))
+                    <div class="alert-success mb-4">{{ session('status') }}</div>
+                @endif
+
                 <form method="POST" action="{{ route('login.attempt') }}" class="space-y-4">
                     @csrf
 
@@ -74,6 +80,9 @@
                     <div>
                         <div class="flex items-center justify-between mb-1.5">
                             <label for="password" class="block text-sm font-medium text-slate-700">পাসওয়ার্ড</label>
+                            @if($smtpActive)
+                                <a href="{{ route('password.request') }}" class="text-xs font-semibold text-indigo-600 hover:text-indigo-700">পাসওয়ার্ড ভুলে গেছেন?</a>
+                            @endif
                         </div>
                         <input id="password" name="password" type="password" required
                                placeholder="••••••••"

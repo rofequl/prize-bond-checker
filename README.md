@@ -10,7 +10,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06b6d4.svg)](https://tailwindcss.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-blueviolet.svg)](https://www.php.net)
 
-[**🚀 Live Demo**](https://nayem.com.bd) · [**📖 Documentation**](#-getting-started) · [**🐛 Report a Bug**](https://github.com/rofequl/price-bond-checker/issues) · [**💬 Request a Feature**](https://github.com/rofequl/price-bond-checker/issues)
+[**🚀 Live Demo**](https://bond.nayem.com.bd) · [**📖 Documentation**](#-getting-started) · [**🐛 Report a Bug**](https://github.com/rofequl/price-bond-checker/issues) · [**💬 Request a Feature**](https://github.com/rofequl/price-bond-checker/issues)
 
 </div>
 
@@ -105,36 +105,50 @@ php artisan key:generate
 # Then run migrations
 php artisan migrate
 
-# 7. Create the public storage symlink (required for PDF uploads)
+# 7. Seed the default Super Admin + active bond series
+php artisan db:seed
+
+# 8. Create the public storage symlink (required for PDF uploads)
 php artisan storage:link
 
-# 8. Build front-end assets
+# 9. Build front-end assets
 npm run build
 
-# 9. Serve the application
+# 10. Serve the application
 php artisan serve
 ```
 
 The site will be available at **http://localhost:8000**.
 
-### Creating the first admin
+### Default Super Admin credentials
 
-By default no admin user exists. Create one through `tinker`:
+After running `php artisan db:seed`, a Super Admin account is created with these defaults:
+
+| Field | Value |
+|---|---|
+| Email | `admin@gmail.com` |
+| Password | `password` |
+
+Log in at **`/admin`** with these credentials.
+
+> ⚠️ **Change them immediately after first login.** The default password is documented publicly and is unsafe for production.
+
+**How to change:**
+
+- **Email / name / phone** — log in as the Super Admin at `/admin`, then use the citizen dashboard profile section (or update directly via tinker).
+- **Password** — set up SMTP first in **Admin → SMTP / Email**, then use **Forgot Password** on the login page to receive a reset link, or update via tinker:
 
 ```bash
 php artisan tinker
 ```
 
 ```php
-\App\Models\User::create([
-    'name' => 'Admin',
-    'email' => 'admin@example.com',
-    'password' => bcrypt('strong-password-here'),
-    'role' => 'admin',
-]);
+$u = \App\Models\User::where('email', 'admin@gmail.com')->first();
+$u->password = 'your-new-strong-password'; // auto-hashed by the cast
+$u->save();
 ```
 
-Then visit `/admin` to log in.
+Re-running `php artisan db:seed` is safe — the seeder uses `firstOrCreate`, so it only creates the Super Admin if a user with the email `admin@gmail.com` does not exist yet. Once you change the password (or the email), re-seeding leaves that account untouched.
 
 ### Development mode
 

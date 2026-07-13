@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\PrizeBondDraw;
 use App\Models\PrizeBondSeries;
+use App\Models\SmtpSetting;
 use App\Models\User;
+use App\Support\MailConfigurator;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -393,6 +396,79 @@ class AdminAuthController extends Controller
         } catch (\Throwable $e) {
             return redirect()->route('admin.system')->with('system_error', 'Failed: '.$e->getMessage());
         }
+    }
+
+    public function smtp(): View
+    {
+        $setting = SmtpSetting::current();
+
+        return view('admin.smtp', compact('setting'));
+    }
+
+    public function updateSmtp(Request $request): RedirectResponse
+    {
+        $validated = $request->validate([
+            'host' => ['required', 'string', 'max:255'],
+            'port' => ['required', 'integer', 'between:1,65535'],
+            'encryption' => ['nullable', 'in:tls,ssl'],
+            'username' => ['nullable', 'string', 'max:255'],
+            'password' => ['nullable', 'string', 'max:255'],
+            'from_address' => ['required', 'email', 'max:255'],
+            'from_name' => ['required', 'string', 'max:255'],
+            'enabled' => ['nullable', 'boolean'],
+        ]);
+
+        $setting = SmtpSetting::current();
+
+        $payload = [
+            'host' => $validated['host'],
+            'port' => (int) $validated['port'],
+            'encryption' => $validated['encryption'] ?: null,
+            'username' => $validated['username'] ?: null,
+            'from_address' => $validated['from_address'],
+            'from_name' => $validated['from_name'],
+            'enabled' => $request->boolean('enabled'),
+        ];
+
+        if (filled($validated['password'] ?? null)) {
+            $payload['password'] = $validated['password'];
+        } elseif ($setting === null) {
+            $payload['password'] = null;
+        }
+
+        if ($setting) {
+            $setting->update($payload);
+        } else {
+            SmtpSetting::create($payload);
+        }
+
+        MailConfigurator::apply();
+
+        return redirect()->route('admin.smtp')->with('smtp_message', 'SMTP settings saved.');
+    }
+
+    public function sendSmtpTest(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'recipient' => ['required', 'email'],
+        ]);
+
+        if (! SmtpSetting::isActive()) {
+            return redirect()->route('admin.smtp')->with('smtp_error', 'Enable and save SMTP settings before sending a test.');
+        }
+
+        MailConfigurator::apply();
+
+        try {
+            Mail::raw(
+                "This is a test email from Price Bond Bangladesh.\n\nIf you received it, SMTP is configured correctly.",
+                fn ($message) => $message->to($request->string('recipient'))->subject('SMTP test — Price Bond Bangladesh')
+            );
+        } catch (\Throwable $e) {
+            return redirect()->route('admin.smtp')->with('smtp_error', 'Failed to send test: '.$e->getMessage());
+        }
+
+        return redirect()->route('admin.smtp')->with('smtp_message', 'Test email dispatched to '.$request->string('recipient').'.');
     }
 
     public function logout(Request $request): RedirectResponse

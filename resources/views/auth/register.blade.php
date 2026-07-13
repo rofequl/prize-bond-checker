@@ -1,6 +1,8 @@
 @extends('layouts.portal')
 
 @section('title', 'রেজিস্ট্রেশন | Price Bond Bangladesh')
+@section('meta_description', 'বিনামূল্যে Price Bond Bangladesh অ্যাকাউন্ট তৈরি করুন এবং আপনার প্রাইজ বন্ড নম্বর সংরক্ষণ করে ড্র ফলাফল যাচাই শুরু করুন।')
+@section('robots', 'noindex, follow')
 
 @section('content')
     <section class="portal-shell py-14 sm:py-20">
@@ -57,6 +59,13 @@
                         <p class="text-sm text-slate-500">কয়েক ধাপেই শুরু করুন</p>
                     </div>
                 </div>
+
+                @if($smtpActive)
+                    <div class="mb-5 flex items-start gap-3 rounded-xl border border-indigo-100 bg-indigo-50/60 p-3 text-sm text-indigo-900">
+                        <svg class="mt-0.5 h-4 w-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <p>রেজিস্ট্রেশনের পর আপনার ইমেইলে একটি যাচাইকরণ লিংক পাঠানো হবে। লিংকে ক্লিক করার পরই ড্যাশবোর্ড ব্যবহার করা যাবে।</p>
+                    </div>
+                @endif
 
                 <form method="POST" action="{{ route('register.store') }}" class="space-y-4">
                     @csrf

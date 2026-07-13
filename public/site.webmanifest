@@ -1,0 +1,31 @@
+{
+    "name": "Price Bond Bangladesh",
+    "short_name": "Price Bond",
+    "description": "বাংলাদেশ ব্যাংকের প্রাইজ বন্ড ড্র ফলাফল যাচাই ও ট্র্যাকিং প্ল্যাটফর্ম।",
+    "start_url": "/",
+    "scope": "/",
+    "display": "standalone",
+    "background_color": "#f1f5f9",
+    "theme_color": "#4f46e5",
+    "lang": "bn-BD",
+    "icons": [
+        {
+            "src": "/favicon/web-app-manifest-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon/web-app-manifest-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/favicon/favicon-96x96.png",
+            "sizes": "96x96",
+            "type": "image/png",
+            "purpose": "any"
+        }
+    ]
+}

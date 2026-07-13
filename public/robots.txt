@@ -1,2 +1,16 @@
+# Price Bond Bangladesh — robots.txt
 User-agent: *
-Disallow:
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /dashboard
+Disallow: /dashboard/
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /forgot-password
+Disallow: /reset-password
+Disallow: /email/
+Disallow: /up
+
+Sitemap: /sitemap.xml

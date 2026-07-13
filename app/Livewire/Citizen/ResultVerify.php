@@ -143,7 +143,7 @@ class ResultVerify extends Component
     {
         $savedResults = UserResultVerification::query()
             ->where('user_id', Auth::id())
-            ->with(['block', 'draw.series'])
+            ->with(['block', 'bond.series'])
             ->latest('draw_date')
             ->latest('id')
             ->get();
