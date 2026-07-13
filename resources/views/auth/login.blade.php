@@ -1,7 +1,7 @@
 @extends('layouts.portal')
 
-@section('title', 'লগইন | Price Bond Bangladesh')
-@section('meta_description', 'Price Bond Bangladesh অ্যাকাউন্টে লগইন করে আপনার সংরক্ষিত প্রাইজ বন্ড ও ড্র ফলাফল দেখুন।')
+@section('title', 'লগইন | Prize Bond Bangladesh')
+@section('meta_description', 'Prize Bond Bangladesh অ্যাকাউন্টে লগইন করে আপনার সংরক্ষিত প্রাইজ বন্ড ও ড্র ফলাফল দেখুন।')
 @section('robots', 'noindex, follow')
 
 @section('content')

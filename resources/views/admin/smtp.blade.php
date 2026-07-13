@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'SMTP | Price Bond Bangladesh')
+@section('title', 'SMTP | Prize Bond Bangladesh')
 @section('page_title', 'Email / SMTP Settings')
 
 @section('content')

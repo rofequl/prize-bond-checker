@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'পাসওয়ার্ড রিসেট | Price Bond Bangladesh')
+@section('title', 'পাসওয়ার্ড রিসেট | Prize Bond Bangladesh')
 @section('robots', 'noindex, nofollow')
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Price Bond Bangladesh | Citizen Panel')
+@section('title', 'Prize Bond Bangladesh | Citizen Panel')
 
 @section('content')
     <section class="portal-shell pt-10 sm:pt-16">
@@ -9,7 +9,7 @@
                 <span class="section-label">Citizen Panel</span>
                 <h1 class="text-4xl font-black leading-tight text-white sm:text-5xl">নাগরিকের জন্য একাউন্ট, বন্ড, আর ড্র ট্র্যাকিং।</h1>
                 <p class="max-w-2xl text-lg leading-8 text-slate-200/85">
-                    এখানে নাগরিক লগইন, রেজিস্টার, price bond number সংরক্ষণ, এবং draw result search করার ডিজাইন রাখা হলো।
+                    এখানে নাগরিক লগইন, রেজিস্টার, prize bond number সংরক্ষণ, এবং draw result search করার ডিজাইন রাখা হলো।
                     পরে এগুলো backend authentication এবং database flow এর সাথে যুক্ত করা যাবে।
                 </p>
 
@@ -46,7 +46,7 @@
                     <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                         <div>
                             <p class="text-sm text-slate-300">Bond Vault</p>
-                            <h2 class="mt-2 text-2xl font-bold text-white">সংরক্ষিত price bond নম্বর</h2>
+                            <h2 class="mt-2 text-2xl font-bold text-white">সংরক্ষিত prize bond নম্বর</h2>
                         </div>
                         <div class="rounded-full bg-amber-300/15 px-4 py-2 text-sm font-semibold text-amber-100">পরবর্তী ড্র-এর জন্য প্রস্তুত</div>
                     </div>

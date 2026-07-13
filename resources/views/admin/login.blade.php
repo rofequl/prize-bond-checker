@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Login | Price Bond Bangladesh')
+@section('title', 'Admin Login | Prize Bond Bangladesh')
 
 @section('content')
     <div class="min-h-screen surface-app flex items-center justify-center px-4 py-12">
@@ -11,9 +11,9 @@
 
         <div class="w-full max-w-md">
             <a href="{{ route('home') }}" class="flex items-center justify-center gap-3 mb-8">
-                <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond Bangladesh — logo" class="h-16 w-auto object-contain">
+                <img src="{{ asset('images/logo-mark.webp') }}" alt="Prize Bond Bangladesh — logo" class="h-16 w-auto object-contain">
                 <div>
-                    <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-600">Price Bond</p>
+                    <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-600">Prize Bond</p>
                     <p class="text-base font-bold text-slate-900">Admin Panel</p>
                 </div>
             </a>
@@ -71,7 +71,7 @@
                 <a href="https://nayem.com.bd" target="_blank" rel="noopener" class="font-semibold text-slate-700 hover:text-indigo-600">Md Nayem</a>
                 — Admin Portal
                 <span class="block mt-1 text-slate-400">
-                    <a href="https://github.com/rofequl/price-bond-checker" target="_blank" rel="noopener" class="hover:text-indigo-600">Open Source · MIT</a>
+                    <a href="https://github.com/rofequl/prize-bond-checker" target="_blank" rel="noopener" class="hover:text-indigo-600">Open Source · MIT</a>
                 </span>
             </p>
         </div>

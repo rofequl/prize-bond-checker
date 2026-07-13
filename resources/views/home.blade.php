@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Price Bond Bangladesh — নিজের বন্ড ট্র্যাক করুন, ড্র ফলাফল যাচাই করুন')
+@section('title', 'Prize Bond Bangladesh — নিজের বন্ড ট্র্যাক করুন, ড্র ফলাফল যাচাই করুন')
 @section('meta_description', 'বাংলাদেশ ব্যাংকের প্রাইজ বন্ড ড্র ফলাফল স্বয়ংক্রিয়ভাবে মিলিয়ে দেখুন। বিনামূল্যে অ্যাকাউন্ট তৈরি করে আপনার সব বন্ড নম্বর সংরক্ষণ করুন এবং সাম্প্রতিক ৮টি বৈধ ড্র-এর সাথে এক ক্লিকে যাচাই করুন।')
 @section('canonical', url('/'))
 
@@ -10,7 +10,7 @@
             $homeLd = [
                 '@context' => 'https://schema.org',
                 '@type' => 'WebPage',
-                'name' => 'Price Bond Bangladesh',
+                'name' => 'Prize Bond Bangladesh',
                 'url' => url('/'),
                 'inLanguage' => 'bn-BD',
                 'isPartOf' => ['@id' => url('/').'#website'],

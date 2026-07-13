@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Price Bond Bangladesh | Admin Panel')
+@section('title', 'Prize Bond Bangladesh | Admin Panel')
 
 @section('content')
     <section class="portal-shell pt-10 sm:pt-16">

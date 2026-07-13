@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>@yield('title', 'Admin | Price Bond Bangladesh')</title>
+        <title>@yield('title', 'Admin | Prize Bond Bangladesh')</title>
         <link rel="icon" type="image/webp" href="{{ asset('images/logo-mark.webp') }}">
 
         @vite(['resources/css/app.css', 'resources/js/app.js'])
@@ -17,9 +17,9 @@
                     {{-- Sidebar --}}
                     <aside :class="sidebar ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" class="fixed inset-y-0 left-0 z-50 w-64 transform border-r border-slate-200 bg-white transition-transform duration-200 lg:static lg:translate-x-0">
                         <div class="flex h-16 items-center gap-3 border-b border-slate-200 px-6">
-                            <img src="{{ asset('images/logo-mark.webp') }}" alt="Price Bond Bangladesh — logo" class="h-12 w-auto object-contain">
+                            <img src="{{ asset('images/logo-mark.webp') }}" alt="Prize Bond Bangladesh — logo" class="h-12 w-auto object-contain">
                             <div>
-                                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-600">Price Bond</p>
+                                <p class="text-[10px] font-bold uppercase tracking-[0.22em] text-indigo-600">Prize Bond</p>
                                 <p class="text-sm font-bold text-slate-900 leading-tight">Admin Panel</p>
                             </div>
                         </div>

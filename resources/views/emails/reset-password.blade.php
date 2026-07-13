@@ -1,12 +1,12 @@
 @component('emails.layout', [
     'subject' => 'পাসওয়ার্ড রিসেট — '.config('app.name'),
-    'preheader' => 'আপনার Price Bond Bangladesh অ্যাকাউন্টের পাসওয়ার্ড রিসেট করুন।',
+    'preheader' => 'আপনার Prize Bond Bangladesh অ্যাকাউন্টের পাসওয়ার্ড রিসেট করুন।',
 ])
     <h1 style="margin:0 0 12px 0;font-size:24px;font-weight:800;color:#0f172a;line-height:1.3;">
         পাসওয়ার্ড রিসেট অনুরোধ 🔐
     </h1>
     <p style="margin:0 0 16px 0;font-size:15px;line-height:1.7;color:#475569;">
-        হ্যালো{{ $user->name ? ' '.$user->name : '' }}, আমরা আপনার <strong style="color:#4f46e5;">{{ config('app.name', 'Price Bond Bangladesh') }}</strong> অ্যাকাউন্টের পাসওয়ার্ড রিসেটের অনুরোধ পেয়েছি।
+        হ্যালো{{ $user->name ? ' '.$user->name : '' }}, আমরা আপনার <strong style="color:#4f46e5;">{{ config('app.name', 'Prize Bond Bangladesh') }}</strong> অ্যাকাউন্টের পাসওয়ার্ড রিসেটের অনুরোধ পেয়েছি।
     </p>
 
     <p style="margin:0 0 24px 0;font-size:15px;line-height:1.7;color:#475569;">

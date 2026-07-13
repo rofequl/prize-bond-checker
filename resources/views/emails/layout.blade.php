@@ -25,8 +25,8 @@
                                     <td valign="middle" style="vertical-align:middle;">
                                         <img src="{{ asset('favicon/web-app-manifest-192x192.png') }}" alt="{{ config('app.name') }}" width="48" height="48" style="display:inline-block;vertical-align:middle;border:0;margin-right:12px;border-radius:8px;background:#ffffff;padding:4px;">
                                         <span style="display:inline-block;vertical-align:middle;color:#ffffff;">
-                                            <span style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.85;">Price Bond</span>
-                                            <span style="display:block;font-size:18px;font-weight:800;line-height:1.2;">{{ config('app.name', 'Price Bond Bangladesh') }}</span>
+                                            <span style="display:block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;opacity:0.85;">Prize Bond</span>
+                                            <span style="display:block;font-size:18px;font-weight:800;line-height:1.2;">{{ config('app.name', 'Prize Bond Bangladesh') }}</span>
                                         </span>
                                     </td>
                                     <td align="right" valign="middle" style="text-align:right;vertical-align:middle;">
@@ -59,7 +59,7 @@
                             যদি আপনি এই অনুরোধ না করে থাকেন, তাহলে এই ইমেইল উপেক্ষা করুন — কোনো পরিবর্তন হয়নি।
                             <br>
                             শুভেচ্ছান্তে,<br>
-                            <strong style="color:#1e293b;">{{ config('app.name', 'Price Bond Bangladesh') }}</strong> টিম
+                            <strong style="color:#1e293b;">{{ config('app.name', 'Prize Bond Bangladesh') }}</strong> টিম
                         </td>
                     </tr>
                 </table>
@@ -68,7 +68,7 @@
                 <table role="presentation" width="600" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;width:100%;margin-top:16px;">
                     <tr>
                         <td align="center" style="padding:12px 24px;font-size:12px;color:#94a3b8;line-height:1.6;">
-                            © {{ date('Y') }} {{ config('app.name', 'Price Bond Bangladesh') }} — সকল অধিকার সংরক্ষিত।
+                            © {{ date('Y') }} {{ config('app.name', 'Prize Bond Bangladesh') }} — সকল অধিকার সংরক্ষিত।
                             <br>
                             এটি নাগরিকদের ব্যক্তিগত bond ট্র্যাকিং সহায়ক টুল, সরকারি অফিসিয়াল ঘোষণার বিকল্প নয়।
                             <br>

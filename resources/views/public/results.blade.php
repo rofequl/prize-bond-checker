@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'সর্বশেষ ড্র ফলাফল — Price Bond Bangladesh')
+@section('title', 'সর্বশেষ ড্র ফলাফল — Prize Bond Bangladesh')
 @section('meta_description', 'বাংলাদেশ ব্যাংক কর্তৃক ঘোষিত সাম্প্রতিক প্রাইজ বন্ড ড্র ফলাফল দেখুন। ১ম থেকে ৫ম পুরস্কার পর্যন্ত সব বিজয়ী নম্বর, প্রতিটি ড্র-এর তারিখ ও সরকারি PDF ডাউনলোড।')
 @section('canonical', route('results.public'))
 @section('og_type', 'article')

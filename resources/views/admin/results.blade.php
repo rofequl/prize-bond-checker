@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Admin Results | Price Bond Bangladesh')
+@section('title', 'Admin Results | Prize Bond Bangladesh')
 @section('page_title', 'Draw Results')
 
 @section('content')

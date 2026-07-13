@@ -461,8 +461,8 @@ class AdminAuthController extends Controller
 
         try {
             Mail::raw(
-                "This is a test email from Price Bond Bangladesh.\n\nIf you received it, SMTP is configured correctly.",
-                fn ($message) => $message->to($request->string('recipient'))->subject('SMTP test — Price Bond Bangladesh')
+                "This is a test email from Prize Bond Bangladesh.\n\nIf you received it, SMTP is configured correctly.",
+                fn ($message) => $message->to($request->string('recipient'))->subject('SMTP test — Prize Bond Bangladesh')
             );
         } catch (\Throwable $e) {
             return redirect()->route('admin.smtp')->with('smtp_error', 'Failed to send test: '.$e->getMessage());

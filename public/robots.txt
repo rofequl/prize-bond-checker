@@ -1,4 +1,4 @@
-# Price Bond Bangladesh — robots.txt
+# Prize Bond Bangladesh — robots.txt
 User-agent: *
 Allow: /
 Disallow: /admin

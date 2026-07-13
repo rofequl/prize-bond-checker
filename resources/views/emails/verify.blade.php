@@ -1,12 +1,12 @@
 @component('emails.layout', [
     'subject' => 'ইমেইল যাচাই করুন — '.config('app.name'),
-    'preheader' => 'আপনার Price Bond Bangladesh অ্যাকাউন্ট সক্রিয় করতে ইমেইল যাচাই করুন।',
+    'preheader' => 'আপনার Prize Bond Bangladesh অ্যাকাউন্ট সক্রিয় করতে ইমেইল যাচাই করুন।',
 ])
     <h1 style="margin:0 0 12px 0;font-size:24px;font-weight:800;color:#0f172a;line-height:1.3;">
         স্বাগতম{{ $user->name ? ', '.$user->name : '' }}! 👋
     </h1>
     <p style="margin:0 0 16px 0;font-size:15px;line-height:1.7;color:#475569;">
-        <strong style="color:#4f46e5;">{{ config('app.name', 'Price Bond Bangladesh') }}</strong> এ আপনার অ্যাকাউন্ট তৈরি হয়েছে। এখন শুধু ইমেইল যাচাই করলেই আপনি আপনার ড্যাশবোর্ড ব্যবহার করতে পারবেন।
+        <strong style="color:#4f46e5;">{{ config('app.name', 'Prize Bond Bangladesh') }}</strong> এ আপনার অ্যাকাউন্ট তৈরি হয়েছে। এখন শুধু ইমেইল যাচাই করলেই আপনি আপনার ড্যাশবোর্ড ব্যবহার করতে পারবেন।
     </p>
 
     <p style="margin:0 0 24px 0;font-size:15px;line-height:1.7;color:#475569;">

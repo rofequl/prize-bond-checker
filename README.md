@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🇧🇩 Price Bond Bangladesh
+# 🇧🇩 Prize Bond Bangladesh
 
 ### A free, open-source citizen portal for tracking Bangladesh Bank prize bonds and instantly verifying draw results.
 
@@ -10,7 +10,7 @@
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06b6d4.svg)](https://tailwindcss.com)
 [![PHP](https://img.shields.io/badge/PHP-8.2%2B-blueviolet.svg)](https://www.php.net)
 
-[**🚀 Live Demo**](https://bond.nayem.com.bd) · [**📖 Documentation**](#-getting-started) · [**🐛 Report a Bug**](https://github.com/rofequl/price-bond-checker/issues) · [**💬 Request a Feature**](https://github.com/rofequl/price-bond-checker/issues)
+[**🚀 Live Demo**](https://bond.nayem.com.bd) · [**📖 Documentation**](#-getting-started) · [**🐛 Report a Bug**](https://github.com/rofequl/prize-bond-checker/issues) · [**💬 Request a Feature**](https://github.com/rofequl/prize-bond-checker/issues)
 
 </div>
 
@@ -18,7 +18,7 @@
 
 ## 📌 About
 
-**Price Bond Bangladesh** is a modern, fully Bangla-localized web application that helps Bangladeshi citizens organize their prize bond numbers and automatically check them against official Bangladesh Bank draw results. No more manually scanning long PDFs — save your bonds once and verify in one click every quarter.
+**Prize Bond Bangladesh** is a modern, fully Bangla-localized web application that helps Bangladeshi citizens organize their prize bond numbers and automatically check them against official Bangladesh Bank draw results. No more manually scanning long PDFs — save your bonds once and verify in one click every quarter.
 
 > ⚠️ **Disclaimer:** This is an unofficial, community-built tool. It is **not affiliated with Bangladesh Bank or the Government of Bangladesh**. Always verify final winning numbers against the official government PDF released by Bangladesh Bank.
 
@@ -83,8 +83,8 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/rofequl/price-bond-checker.git
-cd price-bond-checker
+git clone https://github.com/rofequl/prize-bond-checker.git
+cd prize-bond-checker
 
 # 2. Install PHP dependencies
 composer install
@@ -165,7 +165,7 @@ php artisan serve
 ## 📁 Project Structure
 
 ```
-price-bond-checker/
+prize-bond-checker/
 ├── app/
 │   ├── Http/Controllers/
 │   │   ├── AuthController.php          # Citizen auth + public pages
@@ -244,7 +244,7 @@ You must:
 
 - ⚠️ **Preserve original author credit** ("Md Nayem") in the README, an About page, or the application footer
 - ⚠️ **Not claim original authorship** of this software or substantial portions of it
-- ⚠️ **Link back** to https://github.com/rofequl/price-bond-checker or https://nayem.com.bd
+- ⚠️ **Link back** to https://github.com/rofequl/prize-bond-checker or https://nayem.com.bd
 
 ---
 
@@ -254,7 +254,7 @@ You must:
 
 - 🌐 Website: [nayem.com.bd](https://nayem.com.bd)
 - 🐙 GitHub: [@rofequl](https://github.com/rofequl)
-- 📦 Repository: [price-bond-checker](https://github.com/rofequl/price-bond-checker)
+- 📦 Repository: [prize-bond-checker](https://github.com/rofequl/prize-bond-checker)
 
 > If you use this software, please drop a ⭐ on the repository — it really helps!
 

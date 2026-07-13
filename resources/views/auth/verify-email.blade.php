@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'ইমেইল যাচাই | Price Bond Bangladesh')
+@section('title', 'ইমেইল যাচাই | Prize Bond Bangladesh')
 @section('robots', 'noindex, nofollow')
 
 @section('content')

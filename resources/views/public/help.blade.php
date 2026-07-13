@@ -1,7 +1,7 @@
 @extends('layouts.portal')
 
-@section('title', 'ব্যবহার সহায়িকা ও FAQ — Price Bond Bangladesh')
-@section('meta_description', 'Price Bond Bangladesh কীভাবে ব্যবহার করবেন — ৪টি সহজ ধাপে অ্যাকাউন্ট তৈরি, ব্লক ও বন্ড সংরক্ষণ এবং ড্র ফলাফল যাচাই। প্রায়শই জিজ্ঞাসিত প্রশ্নের উত্তর।')
+@section('title', 'ব্যবহার সহায়িকা ও FAQ — Prize Bond Bangladesh')
+@section('meta_description', 'Prize Bond Bangladesh কীভাবে ব্যবহার করবেন — ৪টি সহজ ধাপে অ্যাকাউন্ট তৈরি, ব্লক ও বন্ড সংরক্ষণ এবং ড্র ফলাফল যাচাই। প্রায়শই জিজ্ঞাসিত প্রশ্নের উত্তর।')
 @section('canonical', route('help'))
 
 @push('json_ld')
@@ -48,7 +48,7 @@
         <div class="max-w-3xl">
             <span class="section-label">সহায়িকা</span>
             <h1 class="mt-3 text-3xl sm:text-5xl font-black tracking-tight text-slate-900 leading-tight">
-                কীভাবে <span class="text-indigo-600">Price Bond</span> ব্যবহার করবেন?
+                কীভাবে <span class="text-indigo-600">Prize Bond</span> ব্যবহার করবেন?
             </h1>
             <p class="mt-4 text-base sm:text-lg leading-8 text-slate-600">
                 সম্পূর্ণ প্রক্রিয়াটি ৪টি সহজ ধাপে বিভক্ত। নতুন ব্যবহারকারীরা মাত্র কয়েক মিনিটেই শুরু করতে পারবেন।
@@ -114,7 +114,7 @@
                 </div>
                 <h2 class="mt-5 text-2xl font-bold text-slate-900 relative">বন্ড নম্বর যুক্ত করুন</h2>
                 <p class="mt-2 text-slate-600 leading-relaxed relative">
-                    প্রতিটি ব্লকে আপনার Price Bond এর সিরিজ ও নম্বর যুক্ত করুন। ভুল হলে যেকোনো সময় এডিট করতে পারবেন।
+                    প্রতিটি ব্লকে আপনার Prize Bond এর সিরিজ ও নম্বর যুক্ত করুন। ভুল হলে যেকোনো সময় এডিট করতে পারবেন।
                 </p>
                 <ul class="mt-4 space-y-2 text-sm text-slate-600 relative">
                     <li class="flex items-start gap-2">

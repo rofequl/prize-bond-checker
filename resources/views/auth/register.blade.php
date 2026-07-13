@@ -1,7 +1,7 @@
 @extends('layouts.portal')
 
-@section('title', 'রেজিস্ট্রেশন | Price Bond Bangladesh')
-@section('meta_description', 'বিনামূল্যে Price Bond Bangladesh অ্যাকাউন্ট তৈরি করুন এবং আপনার প্রাইজ বন্ড নম্বর সংরক্ষণ করে ড্র ফলাফল যাচাই শুরু করুন।')
+@section('title', 'রেজিস্ট্রেশন | Prize Bond Bangladesh')
+@section('meta_description', 'বিনামূল্যে Prize Bond Bangladesh অ্যাকাউন্ট তৈরি করুন এবং আপনার প্রাইজ বন্ড নম্বর সংরক্ষণ করে ড্র ফলাফল যাচাই শুরু করুন।')
 @section('robots', 'noindex, follow')
 
 @section('content')
